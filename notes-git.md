@@ -25,6 +25,24 @@ GIT
         - these files are being tracked by Git
         - each commit has an id
 
+(RUN COMMANDS IN GIT BASH)
 # INTEGRATING GIT INTO THE PROJECT
     - create new Git repository to your project's root folder
-    - COMMAND (run in Git bash): git init 
+    - COMMAND: git init 
+
+# CHOOSING WHAT FILES WE DON'T WANT TO BE TRACKED
+    - create a new file called ".gitignore" inside project's root
+    - inside the file, add the folder we don't want to be tracking, EXAMPLE: "node_modules/"
+
+# MOVING FILES FROM "UNTRACKED FILES" AREA TO THE "STAGED CHANGES" AREA
+    - COMMAND FOR MOVING ONE FILE: git add filename.file_extension
+    - for very first commit, you can ad everything in the current directory (which can be seen with command "git status") and all sub directories
+    - ^^ COMMAND: git add .
+
+# MAKING A COMMIT
+    - commits needs to have a message, which can be done by -m flag followed by the message in quotation marks
+    - COMMAND: git commit -m "Message"
+
+# OTHER GIT COMANDS
+    - see what files are in .git repository:
+        - COMMAND: git status
