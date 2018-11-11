@@ -4,10 +4,11 @@ import {
     startAddExpense, 
     addExpense, 
     editExpense, 
+    startEditExpense ,   
     startRemoveExpense, 
     removeExpense, 
     setExpenses, 
-    startSetExpenses
+    startSetExpenses,
 } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
@@ -49,6 +50,9 @@ test("should remove expense from firebase", (done) => {
             type: "REMOVE_EXPENSE",
             id
         });
+        // After startRemoveExpense has removed the item, we will try to fetch that item,
+        // if it returns null, we know it was removed
+        // .toBeFalsy checks if it's a falsy value (which "null" will be)
         return database.ref(`expenses/${id}`).once("value");
     }).then((snapshot) => {
         expect(snapshot.val()).toBeFalsy();
@@ -64,6 +68,28 @@ test("should setup edit expense action object", () => {
         updates: {
             note: "New note value"
         }
+    });
+});
+
+// This was done in S15 L160
+test("should edit expense in Firebase", (done) => {
+    const store = createMockStore({});
+    const id = expenses[0].id;
+    const updates = { amount: 21045 };
+
+    store.dispatch(startEditExpense(id, updates)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: "EDIT_EXPENSE",
+            id,
+            updates
+        });
+        // After startEditExpense has made the changes, we will fetch that edited
+        // item and check if its properties are what we expect them to be
+        return database.ref(`expenses/${id}`).once("value");
+    }).then((snapshot) => {
+        expect(snapshot.val().amount).toBe(updates.amount);
+        done();
     });
 });
 
