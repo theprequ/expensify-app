@@ -10,6 +10,7 @@ import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase.js";
+import LoadingPage from "./components/LoadingPage";
 
 
 // Gets us access to .dispatch() , .getState() and .subscribe()
@@ -31,7 +32,7 @@ const renderApp = () => {
     } // If we have rendered -> do nothing
 }
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 // Observer, if login state changes, check what's the state and act accordingly
 firebase.auth().onAuthStateChanged((user) => {
